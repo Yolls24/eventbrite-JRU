@@ -1,0 +1,66 @@
+/* Reset et base */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f5f5f5;
+  }
+  
+  /* Navbar */
+  .navbar {
+    background-color: #007BFF;
+    padding: 10px 20px;
+    color: white;
+  }
+  
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+  }
+  
+  .navbar-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 15px;
+  }
+  
+  .navbar-links li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .navbar-links li a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Main content */
+  .main-content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 0 20px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    border-radius: 6px;
+  }
+  
+  /* Footer */
+  footer {
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    padding: 15px 0;
+    margin-top: 30px;
+  }
+  

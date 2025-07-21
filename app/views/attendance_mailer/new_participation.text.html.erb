@@ -1,0 +1,11 @@
+Nouvelle participation à <%= @event.title %>
+
+Bonjour <%= @admin.first_name %>,
+
+Un nouvel utilisateur s'est inscrit à votre événement <%= @event.title %>.
+
+Participant : <%= @attendance.user.first_name %> <%= @attendance.user.last_name %> (<%= @attendance.user.email %>)
+Date de l'événement : <%= @event.start_date.strftime("%d %B %Y à %H:%M") %>
+Lieu : <%= @event.location %>
+
+Merci de gérer au mieux votre événement.

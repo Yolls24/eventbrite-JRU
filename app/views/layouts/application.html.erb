@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>EventbriteClone</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <style>
+      /* Simple reset + font */
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f9fa;
+        color: #333;
+      }
+      /* Navbar */
+      nav {
+        background-color: #007BFF;
+        padding: 10px 20px;
+        color: white;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      nav a {
+        color: white;
+        text-decoration: none;
+        font-weight: 600;
+        margin-right: 15px;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      .container {
+        max-width: 900px;
+        margin: 30px auto;
+        padding: 0 20px;
+      }
+      footer {
+        text-align: center;
+        padding: 15px 0;
+        background-color: #007BFF;
+        color: white;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav>
+      <div class="nav-left">
+        <a href="<%= root_path %>">EventbriteClone</a>
+      </div>
+      <div class="nav-right">
+        <% if user_signed_in? %>
+          Bonjour, <%= current_user.email %> |
+          <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
+        <% else %>
+          <%= link_to 'Inscription', new_user_registration_path %> |
+          <%= link_to 'Connexion', new_user_session_path %>
+        <% end %>
+      </div>
+    </nav>
+
+    <div class="container">
+      <%= yield %>
+    </div>
+
+    <footer>
+      &copy; <%= Time.current.year %> EventbriteClone - Tous droits réservés
+    </footer>
+  </body>
+</html>
+
+
