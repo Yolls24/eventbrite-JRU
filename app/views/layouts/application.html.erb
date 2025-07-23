@@ -7,6 +7,7 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
     <style>
       /* Simple reset + font */
       body {
@@ -78,3 +79,4 @@
 </html>
 
 
+ 

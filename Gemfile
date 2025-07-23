@@ -63,3 +63,6 @@ end
 gem "dotenv-rails", "~> 3.1"
 
 gem "importmap-rails", "~> 2.1"
+gem "cssbundling-rails"
+
+gem "bootstrap", "~> 5.3.0"
