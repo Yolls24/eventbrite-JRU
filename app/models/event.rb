@@ -1,5 +1,6 @@
 class Event < ApplicationRecord
   belongs_to :admin, class_name: "User"
+
   has_many :attendances, dependent: :destroy
   has_many :participants, through: :attendances, source: :user
 
@@ -14,10 +15,21 @@ class Event < ApplicationRecord
   validates :description, presence: true, length: { in: 20..1000 }
 
   validates :price, presence: true,
-            numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 1000 }
+            numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: 1000 }
 
   validates :location, presence: true
 
+  has_one_attached :cover_image
+
+  # Ajout de la méthode pour vérifier l'inscription d'un utilisateur
+  def registered?(user)
+    participants.exists?(user.id)
+  end
+
+  def cover_image_url
+    cover_image.attached? ? Rails.application.routes.url_helpers.rails_blob_path(cover_image, only_path: true) : nil
+  end
+  
   private
 
   def start_date_cannot_be_in_past
@@ -32,5 +44,6 @@ class Event < ApplicationRecord
     end
   end
 end
+
 
 

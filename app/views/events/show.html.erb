@@ -1,12 +1,78 @@
-<h1><%= @event.title %></h1>
+<div class="card shadow-sm mb-4">
+  <!-- Image de couverture supprimée -->
 
-<p><strong>Description :</strong> <%= @event.description %></p>
-<p><strong>Date :</strong> <%= @event.start_date.strftime("%d %b %Y %H:%M") %></p>
-<p><strong>Durée :</strong> <%= @event.duration %> minutes</p>
-<p><strong>Prix :</strong> <%= @event.price %> €</p>
-<p><strong>Lieu :</strong> <%= @event.location %></p>
-<p><strong>Organisateur :</strong> <%= @event.admin.first_name %> <%= @event.admin.last_name %></p>
+  <div class="card-body">
+    <h1 class="card-title mb-4"><%= @event.title %></h1>
 
-<%= link_to "Modifier", edit_event_path(@event), class: "btn btn-warning" %> |
-<%= link_to "Retour à la liste", events_path, class: "btn btn-secondary" %> |
-<%= link_to "Supprimer", event_path(@event), method: :delete, data: { confirm: "Êtes-vous sûr ?" }, class: "btn btn-danger" %>
+    <ul class="list-group list-group-flush mb-4">
+      <li class="list-group-item">
+        <strong>Description :</strong><br>
+        <%= simple_format(@event.description) %>
+      </li>
+      <li class="list-group-item">
+        <strong>Date :</strong> <%= @event.start_date.strftime("%d %b %Y à %H:%M") %>
+      </li>
+      <li class="list-group-item">
+        <strong>Durée :</strong> <%= @event.duration %> minutes
+      </li>
+      <li class="list-group-item">
+        <strong>Prix :</strong>
+        <% if @event.price.zero? %>
+          <span class="badge bg-success">Gratuit</span>
+        <% else %>
+          <%= @event.price %> €
+        <% end %>
+      </li>
+      <li class="list-group-item">
+        <strong>Lieu :</strong> <%= @event.location %>
+      </li>
+      <li class="list-group-item">
+        <strong>Organisateur :</strong> <%= @event.admin.first_name %> <%= @event.admin.last_name %>
+      </li>
+    </ul>
+
+    <% if user_signed_in? %>
+      <% if !@event.registered?(current_user) %>
+        <%= button_to "Je m’inscris", event_attendances_path(@event), method: :post, class: "btn btn-primary mb-3" %>
+      <% else %>
+        <span class="badge bg-info mb-3">Vous êtes inscrit à cet événement</span>
+      <% end %>
+    <% else %>
+      <%= link_to "Connectez-vous pour vous inscrire", new_user_session_path, class: "btn btn-outline-primary mb-3" %>
+    <% end %>
+
+    <div class="d-flex gap-2 flex-wrap">
+      <%= link_to "Modifier", edit_event_path(@event), class: "btn btn-warning" %>
+      <%= link_to "Retour à la liste", events_path, class: "btn btn-secondary" %>
+      <%= link_to "Supprimer", event_path(@event),
+                  method: :delete,
+                  data: { confirm: "Êtes-vous sûr de vouloir supprimer cet événement ?" },
+                  class: "btn btn-danger" %>
+    </div>
+  </div>
+</div>
+
+<div class="card mt-4">
+  <div class="card-header">
+    <h5>Participants (<%= @event.participants.count %>)</h5>
+  </div>
+  <ul class="list-group list-group-flush">
+    <% if @event.participants.any? %>
+      <% @event.participants.each do |participant| %>
+        <li class="list-group-item d-flex align-items-center gap-3">
+          <%= image_tag(participant.avatar_url || "default_avatar.png",
+                        alt: participant.email,
+                        class: "rounded-circle",
+                        style: "width: 40px; height: 40px; object-fit: cover;") %>
+          <span><%= participant.first_name %> <%= participant.last_name %> (<%= participant.email %>)</span>
+        </li>
+      <% end %>
+    <% else %>
+      <li class="list-group-item">Aucun participant pour le moment.</li>
+    <% end %>
+  </ul>
+</div>
+
+
+
+

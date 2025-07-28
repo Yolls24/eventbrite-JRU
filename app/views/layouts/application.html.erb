@@ -8,71 +8,65 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <%= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-    <style>
-      /* Simple reset + font */
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        margin: 0;
-        padding: 0;
-        background-color: #f8f9fa;
-        color: #333;
-      }
-      /* Navbar */
-      nav {
-        background-color: #007BFF;
-        padding: 10px 20px;
-        color: white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-      nav a {
-        color: white;
-        text-decoration: none;
-        font-weight: 600;
-        margin-right: 15px;
-      }
-      nav a:hover {
-        text-decoration: underline;
-      }
-      .container {
-        max-width: 900px;
-        margin: 30px auto;
-        padding: 0 20px;
-      }
-      footer {
-        text-align: center;
-        padding: 15px 0;
-        background-color: #007BFF;
-        color: white;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-      }
-    </style>
   </head>
 
-  <body>
-    <nav>
-      <div class="nav-left">
-        <a href="<%= root_path %>">EventbriteClone</a>
-      </div>
-      <div class="nav-right">
-        <% if user_signed_in? %>
-          Bonjour, <%= current_user.email %> |
-          <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
-        <% else %>
-          <%= link_to 'Inscription', new_user_registration_path %> |
-          <%= link_to 'Connexion', new_user_session_path %>
-        <% end %>
+  <body class="bg-light text-dark d-flex flex-column min-vh-100">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container">
+        <%= link_to "EventbriteClone", root_path, class: "navbar-brand" %>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <% if user_signed_in? %>
+              <li class="nav-item me-2 d-flex align-items-center text-white">
+                Bonjour, <%= current_user.email %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete, class: "nav-link text-white" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to 'Inscription', new_user_registration_path, class: "nav-link text-white" %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Connexion', new_user_session_path, class: "nav-link text-white" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </nav>
 
-    <div class="container">
-      <%= yield %>
+    <!-- Flash messages -->
+    <div class="container mt-3">
+      <% flash.each do |type, message| %>
+        <% alert_class = case type.to_sym
+          when :notice then "alert-success"
+          when :alert then "alert-danger"
+          else "alert-info"
+        end %>
+        <div class="alert <%= alert_class %> alert-dismissible fade show" role="alert">
+          <%= message %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+      <% end %>
     </div>
 
-    <footer>
+    <!-- Main content -->
+    <main class="flex-grow-1">
+      <div class="container py-4">
+        <%= yield %>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary text-white text-center py-3 mt-auto">
       &copy; <%= Time.current.year %> EventbriteClone - Tous droits réservés
     </footer>
   </body>
